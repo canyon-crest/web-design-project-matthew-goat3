@@ -116,7 +116,7 @@ li{
 
 @media(max-width:992px){
         #container{
-            background-color:aqua
+            background-color:aqua;
             width:100%;
 
     }
@@ -139,8 +139,8 @@ li{
     h1{
         border: none;
         background: none;
-        color: greenyellow
-        width:100%
+        color: greenyellow;
+        width:100%;
     
     }
     img{
