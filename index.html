@@ -1,51 +1,54 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>ADD TITLE HERE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Matthew Cho — Personal Website</title>
+    <meta name="description" content="Personal page for Matthew Cho — hobbies, music, and background.">
     <link rel="stylesheet" href="styles.css">  
   </head>
   <body>
-    <!-- GATE: no JS, just a checkbox + label -->
-    <input type="checkbox" id="gate-toggle" class="gate__toggle" aria-hidden="true">
+    <!-- PURE CSS ENTER GATE (checkbox + label) -->
+    <input type="checkbox" id="gate-toggle" class="gate__toggle" aria-hidden="true" />
 
-    <div class="gate" aria-label="Intro overlay">
-      <div class="gate__panel gate__panel--left"></div>
-      <div class="gate__panel gate__panel--right"></div>
-      <label for="gate-toggle" class="gate__button" aria-label="Press to Enter">Press to enter</label>
+    <div class="gate" aria-hidden="false" aria-label="Intro overlay">
+      <div class="gate__panel gate__panel--left" aria-hidden="true"></div>
+      <div class="gate__panel gate__panel--right" aria-hidden="true"></div>
+      <label for="gate-toggle" class="gate__button" aria-label="Press to enter">Press to enter</label>
     </div>
 
-    <!-- Wrap your existing site in a .site wrapper so it’s hidden until opened -->
-    <div class="site">
+    <!-- site content revealed after pressing enter -->
+    <div class="site" aria-live="polite">
       <div id="container">
         <h1 class="title">Matthew Cho</h1>
         <h2 class="highlight">LilCho7191 on Fortnite</h2>
 
-        <div id="sidebar" class="sidebar">
+        <div id="sidebar" class="sidebar" aria-label="Personal info">
           <h3>Information</h3>
           <ul class="info-list"> 
             <li>I met Paik Jong-Won</li>
             <li>Born in Atlanta, Georgia</li>
-            <li>Raised in SD</li>
+            <li>Raised in San Diego</li>
           </ul>
         </div>
 
         <h3>About me</h3>
         <p class="about">
-          <img src="images/math-1.jpg" id="mathbaby" alt="math baby">
-          My name is Matthew Cho, a sophomore at <a href="https://sduhsd.net" target="_blank" rel="noopener noreferrer">Canyon Crest Academy</a>. I am 5’6 and 15 years old. My parents are both 100% Korean and I was born in Atlanta, Georgia. I have just recently found out I am slightly lactose intolerant so I had to switch to lactose-free milk. My favorite subject is math.
+          <img src="images/math-1.jpg" id="mathbaby" alt="student studying math" class="float-img">
+          My name is Matthew Cho, a sophomore at <a href="https://sduhsd.net" target="_blank" rel="noopener noreferrer">Canyon Crest Academy</a>. I am 5'6" and 15 years old. My parents are both Korean and I was born in Atlanta, Georgia. I recently discovered I'm slightly lactose intolerant and switched to lactose-free milk. My favorite subject is math.
         </p>
 
         <h3>My Hobbies</h3>
         <p class="hobbies">
-          <img src="images/_119546661_gettyimages-1294130887.jpg" id="sonnyboy" alt="sonnyboy">
-          I like sports in general and athletes. My favorite sport to play is soccer. My favorite soccer players include <a href="https://en.wikipedia.org/wiki/Son_Heung-min" target="_blank" rel="noopener noreferrer">Son Heung-min</a>, Karou Mitoma, and Ji-sung Park. In my free time I like to listen to music, go on my phone, and watch movies. I enjoy travelling and meeting new people.
+          <img src="images/_119546661_gettyimages-1294130887.jpg" id="sonnyboy" alt="soccer player Son Heung-min" class="float-img">
+          I like sports and athletes. My favorite sport to play is soccer. Players I admire include <a href="https://en.wikipedia.org/wiki/Son_Heung-min" target="_blank" rel="noopener noreferrer">Son Heung-min</a>, Kaoru Mitoma, and Ji-sung Park. In my free time I listen to music, use my phone, and watch movies. I enjoy traveling and meeting new people.
         </p>
 
         <h3>My music taste</h3>
         <p class="music">
-          <img src="images/images.jpeg" id="twohollis" alt="twohollis">
-          I like to expand my music taste palette every month. During summer, I made new friends who put me onto kpop by watching the idol survival show, <a href="https://en.wikipedia.org/wiki/Boys_II_Planet" target="_blank" rel="noopener noreferrer">Boys 2 Planet</a>. My favorite groups are NewJeans, TWICE, and Aespa. Last month I got really into hyperpop, with favorite artists including 2hollis, The Deep, Tonser, kimj, Effie, and Glaive.
+          <img src="images/images.jpeg" id="twohollis" alt="album art" class="float-img">
+          I like to expand my music taste every month. This summer friends introduced me to K-pop via an idol survival show, <a href="https://en.wikipedia.org/wiki/Boys_II_Planet" target="_blank" rel="noopener noreferrer">Boys 2 Planet</a>. Favorite groups: NewJeans, TWICE, and Aespa. Recently I got into hyperpop — artists I listen to include 2hollis, The Deep, Tonser, kimj, Effie, and Glaive.
         </p>
       </div>
     </div>

@@ -4,9 +4,390 @@ body {
     color: #2d3436;
     margin: 0;
     padding: 0;
-    
 }
 
+/* global box model + prevent horizontal scroll */
+* { box-sizing: border-box; }
+html, body { width: 100%; overflow-x: hidden; }
+
+/* Ensure container is capped for large screens but fluid on small screens.
+   Using max-width + calc prevents accidental horizontal overflow. */
+#container {
+    max-width: 1100px;                 /* cap for largest screens */
+    width: calc(100% - 40px);          /* allow small screens to shrink */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    border-left: 5px double #b0bec5;
+    border-right: 5px double #b0bec5;
+    background-color: #ffffff;
+    animation: fadeIn 1.5s ease;
+}
+
+/* Images: responsive, avoid forcing a minimum width that causes scrolling */
+img {
+    max-width: 40%;     /* wrap text on larger viewports */
+    width: auto;        /* let max-width control sizing */
+    height: auto;
+    background-color: #ffffff;
+    border: 2.5px solid #2d3436;
+    border-radius: 35px;
+    float: left;
+    margin-right: 20px;
+    display: block;
+}
+
+/* Keep the media query behavior but ensure widths never exceed viewport */
+@media (max-width: 1200px) {
+    #container {
+        width: 800px;
+        max-width: 92%;
+        background-color: #f4f6fb;
+    }
+}
+
+@media (max-width: 992px) {
+    #container {
+        width: 95%;
+        max-width: 980px;
+        background-color: #f4f4f9;
+    }
+    img {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    #container {
+        width: 100%;
+        padding: 12px;
+    }
+    #sidebar { display: none; }
+    img {
+        float: none;
+        display: block;
+        margin: 0 auto 1rem;
+        width: 80%;
+        max-width: 300px;
+    }
+}
+
+/* hide the checkbox but keep it accessible for label */
+.gate__toggle{
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* full-screen overlay */
+.gate{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 400px at 50% 120%, rgba(255,255,255,0.05), transparent),
+    linear-gradient(135deg, var(--gate-grad-1), var(--gate-grad-2));
+  display: grid;
+  place-items: center;
+}
+
+/* two panels: left & right halves */
+.gate__panel{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50vw;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.35);
+  transition: transform 1s cubic-bezier(.22,.61,.36,1);
+}
+
+.gate__panel--left{
+  left: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.07), rgba(255,255,255,0)),
+    linear-gradient(135deg, #0b1220, var(--gate-bg));
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+.gate__panel--right{
+  right: 0;
+  background:
+    linear-gradient(270deg, rgba(255,255,255,0.07), rgba(255,255,255,0)),
+    linear-gradient(225deg, #0b1220, var(--gate-bg));
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Big 3D button centered at the seam */
+.gate__button{
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  padding: 18px 42px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gate-accent), #3867d6);
+  color: var(--gate-text);
+  font: 700 1.25rem/1.1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  border: 0;
+  box-shadow:
+    0 18px 28px rgba(75, 123, 236, 0.35),
+    inset 0 -4px 0 rgba(0,0,0,0.25),
+    inset 0 3px 0 rgba(255,255,255,0.25);
+  transform: translateZ(0);
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  user-select: none;
+}
+
+.gate__button::after{
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  padding: 2px;
+  background: linear-gradient(90deg, var(--gate-accent), var(--gate-accent-2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: .75;
+  pointer-events: none;
+}
+
+.gate__button:hover{
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow:
+    0 22px 34px rgba(75, 123, 236, 0.45),
+    inset 0 -4px 0 rgba(0,0,0,0.25),
+    inset 0 3px 0 rgba(255,255,255,0.25);
+}
+
+.gate__button:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 8px 14px rgba(75, 123, 236, 0.35),
+    inset 0 -2px 0 rgba(0,0,0,0.35),
+    inset 0 2px 0 rgba(255,255,255,0.2);
+}
+
+/* Attach the button to the seam visually: add a thin “hinge” glow line */
+.gate::before{
+  content: "";
+  position: absolute;
+  top: 0; left: 50%;
+  width: 2px; height: 100%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+  transform: translateX(-1px);
+  pointer-events: none;
+}
+
+/* On "enter" (checkbox checked): split left & right panels outwards */
+.gate__toggle:checked ~ .gate .gate__panel--left{
+  transform: translateX(-100%);
+}
+.gate__toggle:checked ~ .gate .gate__panel--right{
+  transform: translateX(100%);
+}
+
+/* Move the button with the left panel so it looks attached */
+.gate__toggle:checked ~ .gate .gate__button{
+  transform: translateX(-50vw);
+  transition: transform 1s cubic-bezier(.22,.61,.36,1), box-shadow .2s ease, filter .2s ease;
+}
+
+/* Fade the entire gate away once panels fully slide */
+.gate__toggle:checked ~ .gate{
+  pointer-events: none;
+  animation: gateFade 1.05s ease forwards .95s;
+}
+@keyframes gateFade{
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* Reveal your site content underneath */
+.site{
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(0.99);
+  transition: opacity .6s ease .85s, filter .6s ease .85s, transform .6s ease .85s;
+}
+
+.gate__toggle:checked ~ .site{
+  opacity: 1;
+  filter: none;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Responsive polish so the button stays comfy */
+@media (max-width: 768px){
+  .gate__button{
+    padding: 16px 32px;
+    font-size: 1.05rem;
+  }
+}
+
+.gate__toggle{
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* full-screen overlay */
+.gate{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 400px at 50% 120%, rgba(255,255,255,0.05), transparent),
+    linear-gradient(135deg, var(--gate-grad-1), var(--gate-grad-2));
+  display: grid;
+  place-items: center;
+}
+
+/* two panels: left & right halves */
+.gate__panel{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50vw;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.35);
+  transition: transform 1s cubic-bezier(.22,.61,.36,1);
+}
+
+.gate__panel--left{
+  left: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.07), rgba(255,255,255,0)),
+    linear-gradient(135deg, #0b1220, var(--gate-bg));
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+.gate__panel--right{
+  right: 0;
+  background:
+    linear-gradient(270deg, rgba(255,255,255,0.07), rgba(255,255,255,0)),
+    linear-gradient(225deg, #0b1220, var(--gate-bg));
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Big 3D button centered at the seam */
+.gate__button{
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  padding: 18px 42px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gate-accent), #3867d6);
+  color: var(--gate-text);
+  font: 700 1.25rem/1.1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  border: 0;
+  box-shadow:
+    0 18px 28px rgba(75, 123, 236, 0.35),
+    inset 0 -4px 0 rgba(0,0,0,0.25),
+    inset 0 3px 0 rgba(255,255,255,0.25);
+  transform: translateZ(0);
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  user-select: none;
+}
+
+.gate__button::after{
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  padding: 2px;
+  background: linear-gradient(90deg, var(--gate-accent), var(--gate-accent-2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: .75;
+  pointer-events: none;
+}
+
+.gate__button:hover{
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow:
+    0 22px 34px rgba(75, 123, 236, 0.45),
+    inset 0 -4px 0 rgba(0,0,0,0.25),
+    inset 0 3px 0 rgba(255,255,255,0.25);
+}
+
+.gate__button:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 8px 14px rgba(75, 123, 236, 0.35),
+    inset 0 -2px 0 rgba(0,0,0,0.35),
+    inset 0 2px 0 rgba(255,255,255,0.2);
+}
+
+/* Attach the button to the seam visually: add a thin “hinge” glow line */
+.gate::before{
+  content: "";
+  position: absolute;
+  top: 0; left: 50%;
+  width: 2px; height: 100%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+  transform: translateX(-1px);
+  pointer-events: none;
+}
+
+/* On "enter" (checkbox checked): split left & right panels outwards */
+.gate__toggle:checked ~ .gate .gate__panel--left{
+  transform: translateX(-100%);
+}
+.gate__toggle:checked ~ .gate .gate__panel--right{
+  transform: translateX(100%);
+}
+
+/* Move the button with the left panel so it looks attached */
+.gate__toggle:checked ~ .gate .gate__button{
+  transform: translateX(-50vw);
+  transition: transform 1s cubic-bezier(.22,.61,.36,1), box-shadow .2s ease, filter .2s ease;
+}
+
+/* Fade the entire gate away once panels fully slide */
+.gate__toggle:checked ~ .gate{
+  pointer-events: none;
+  animation: gateFade 1.05s ease forwards .95s;
+}
+@keyframes gateFade{
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* Reveal your site content underneath */
+.site{
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(0.99);
+  transition: opacity .6s ease .85s, filter .6s ease .85s, transform .6s ease .85s;
+}
+
+.gate__toggle:checked ~ .site{
+  opacity: 1;
+  filter: none;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Responsive polish so the button stays comfy */
+@media (max-width: 768px){
+  .gate__button{
+    padding: 16px 32px;
+    font-size: 1.05rem;
+  }
+}
 #container {
     width: 1000px;
     margin: 0 auto;
@@ -359,138 +740,4 @@ html {
     padding: 16px 32px;
     font-size: 1.05rem;
   }
-}
-#container {
-    max-width: 1000px;
-    width: 90%;               /* percentage-based for fluid scaling */
-    margin-left: auto;        /* center the main container */
-    margin-right: auto;
-    padding: 20px;
-    border-left: 5px double #b0bec5;
-    border-right: 5px double #b0bec5;
-    background-color: #ffffff;
-}
-
-/* existing h1, h2, h3, etc. rules */
-/* ...existing code... */
-
-#mathbaby {
-    border: none;
-    width: 250px;
-}
-#sonnyboy {
-    width: 250px;
-    margin-left: 10px;
-    margin-right: 0;
-}
-/* renamed id selector so it doesn't start with a digit */
-#twohollis {
-    background-color: #e8f0fe;
-}
-
-/* CLASS RULE */
-.highlight {
-    color: #ffffff;
-    background-color: #4b7bec;
-    padding: 3px 6px;
-    border-radius: 3px;
-    font-weight: bold;
-    border: 2px solid #dfe6e9;
-}
-
-/* paragraph class rules (include required properties) */
-.about, .hobbies, .music {
-    padding: 18px;
-    margin: 12px 0;
-    border: 2px solid #e6eef6;
-    line-height: 1.9;
-    font-family: "Verdana", Arial, sans-serif;
-    font-size: 16px;
-    color: #2d3436;
-    background-color: #fbfdff;
-}
-
-/* ensure imgs float for wrapped text on larger screens */
-img {
-    width: 300px;
-    border: 2.5px solid #2d3436;
-    border-radius: 35px;
-    float: left;
-    margin-right: 20px;
-}
-
-/* SIDEBAR */
-#sidebar {
-    background-color: #e3f2fd;
-    width: 150px;
-    line-height: 2.25em;
-    border: 2px solid #b0bec5;
-    float: right;
-    margin: 10px;
-    margin-top: 34px;
-    border-radius: 10px;
-    text-align: center;
-    padding: 5px;
-    
-}
-#sidebar h3 {
-    border: double;
-    text-align: center;
-    padding: 1px;
-    margin: 12px auto;
-    margin-top: 15px;
-    background: #4b7bec;
-    border: 2px solid #dfe6e9;
-    color: #ffffff;
-    text-align: center;
-}
-
-/* MEDIA QUERIES */
-@media (max-width: 1200px) {
-    #container {
-        background-color: #f4f6fb;
-        width: 85%;
-        max-width: 900px;
-    }
-}
-
-@media (max-width: 992px) {
-    #container {
-        background-color: #f4f4f9;
-        width: 95%;
-    }
-    body, p, #container {
-        margin: 0;
-        border: none;
-        padding: 0;
-        background: linear-gradient(135deg, #dfe6e9, #f9fbfd);
-    }
-    p {
-        padding: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    #sidebar {
-        display: none;
-    }
-    h1 {
-        border: none;
-        background: none;
-        color: #4b7bec;
-        width: 100%;
-    }
-
-    /* remove floats on small screens so images stack and text is readable */
-    img {
-        float: none;
-        display: block;
-        margin: 0 auto 1rem;
-        width: 80%;
-        max-width: 300px;
-    }
-}
-/* ...existing code... */
-#container {
-    animation: fadeIn 1.5s ease;
 }
