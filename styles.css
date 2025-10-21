@@ -360,3 +360,137 @@ html {
     font-size: 1.05rem;
   }
 }
+#container {
+    max-width: 1000px;
+    width: 90%;               /* percentage-based for fluid scaling */
+    margin-left: auto;        /* center the main container */
+    margin-right: auto;
+    padding: 20px;
+    border-left: 5px double #b0bec5;
+    border-right: 5px double #b0bec5;
+    background-color: #ffffff;
+}
+
+/* existing h1, h2, h3, etc. rules */
+/* ...existing code... */
+
+#mathbaby {
+    border: none;
+    width: 250px;
+}
+#sonnyboy {
+    width: 250px;
+    margin-left: 10px;
+    margin-right: 0;
+}
+/* renamed id selector so it doesn't start with a digit */
+#twohollis {
+    background-color: #e8f0fe;
+}
+
+/* CLASS RULE */
+.highlight {
+    color: #ffffff;
+    background-color: #4b7bec;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+    border: 2px solid #dfe6e9;
+}
+
+/* paragraph class rules (include required properties) */
+.about, .hobbies, .music {
+    padding: 18px;
+    margin: 12px 0;
+    border: 2px solid #e6eef6;
+    line-height: 1.9;
+    font-family: "Verdana", Arial, sans-serif;
+    font-size: 16px;
+    color: #2d3436;
+    background-color: #fbfdff;
+}
+
+/* ensure imgs float for wrapped text on larger screens */
+img {
+    width: 300px;
+    border: 2.5px solid #2d3436;
+    border-radius: 35px;
+    float: left;
+    margin-right: 20px;
+}
+
+/* SIDEBAR */
+#sidebar {
+    background-color: #e3f2fd;
+    width: 150px;
+    line-height: 2.25em;
+    border: 2px solid #b0bec5;
+    float: right;
+    margin: 10px;
+    margin-top: 34px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 5px;
+    
+}
+#sidebar h3 {
+    border: double;
+    text-align: center;
+    padding: 1px;
+    margin: 12px auto;
+    margin-top: 15px;
+    background: #4b7bec;
+    border: 2px solid #dfe6e9;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 1200px) {
+    #container {
+        background-color: #f4f6fb;
+        width: 85%;
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 992px) {
+    #container {
+        background-color: #f4f4f9;
+        width: 95%;
+    }
+    body, p, #container {
+        margin: 0;
+        border: none;
+        padding: 0;
+        background: linear-gradient(135deg, #dfe6e9, #f9fbfd);
+    }
+    p {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        display: none;
+    }
+    h1 {
+        border: none;
+        background: none;
+        color: #4b7bec;
+        width: 100%;
+    }
+
+    /* remove floats on small screens so images stack and text is readable */
+    img {
+        float: none;
+        display: block;
+        margin: 0 auto 1rem;
+        width: 80%;
+        max-width: 300px;
+    }
+}
+/* ...existing code... */
+#container {
+    animation: fadeIn 1.5s ease;
+}
