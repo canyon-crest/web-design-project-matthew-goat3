@@ -5,7 +5,30 @@
     <link rel="stylesheet" href="styles.css">  
   </head>
   
+  <!-- GATE: no JS, just a checkbox + label -->
+<input type="checkbox" id="gate-toggle" class="gate__toggle" aria-hidden="true">
+
+<div class="gate" aria-label="Intro overlay">
+  <!-- Left half -->
+  <div class="gate__panel gate__panel--left"></div>
+
+  <!-- Right half -->
+  <div class="gate__panel gate__panel--right"></div>
+
+  <!-- Big 3D “Press to Enter” button (label controls the checkbox) -->
+  <label for="gate-toggle" class="gate__button" aria-label="Press to Enter">Press to enter</label>
+</div>
+
+<!-- Wrap your existing site in a .site wrapper so it’s hidden until opened -->
+<div class="site">
+  <!-- your existing content -->
+  <div id="container">
+    <!-- ...everything you already built... -->
+  </div>
+</div>
+ 
   <body>
+    
     <div id = "container"> 
     <h1 class="title">Matthew Cho</h1>
     <h2 class="highlight">LilCho7191 on Fortnite</h2>
@@ -13,7 +36,7 @@
 <div id="sidebar">
 <h3>Information</h3>
 <ul class ="info-list"> 
-<li>I met paik jong-won</li>
+<li>I met Paik Jong-Won</li>
 <li>Born in Atlanta, Georgia</li>
 <li>Raised in SD</li>
 </ul>
